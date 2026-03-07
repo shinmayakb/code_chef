@@ -1,0 +1,46 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void balance(int n, int initial, int amount[], int arr[]){
+    for(int i = 0; i < n; i++){
+        if(amount[i] <= initial){
+            initial -= amount[i];
+            arr[i] = 1;
+        }
+        else{
+            arr[i] = 0;
+        }
+    }
+}
+
+int main() {
+    int testcase, n, k;
+
+    scanf("%d", &testcase);
+
+    while(testcase > 0){
+        scanf("%d %d", &n, &k);
+
+        int amount[n];
+
+        for(int i = 0; i < n; i++){
+            scanf("%d", &amount[i]);
+        }
+
+        int *arr = (int*)malloc(n * sizeof(int));
+
+        balance(n, k, amount, arr);
+
+        for(int i = 0; i < n; i++){
+            printf("%d", arr[i]);
+        }
+
+        printf("\n");
+
+        free(arr);
+
+        testcase--;
+    }
+
+    return 0;
+}
