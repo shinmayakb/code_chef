@@ -1,0 +1,87 @@
+\* code from code chef
+Chef Builds Queue Using Stacks
+Chef wants to implement a queue that follows the First-In-First-Out (FIFO) principle using only two stacks.
+Stacks support operations such as push, pop, peek, size, and isEmpty.
+Chef needs to design a queue using only stack operations such that it 
+behaves exactly like a normal queue and each operation runs in amortized O(1)O(1) time.
+*/
+
+import java.util.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+class QueueUsingStacks {
+    // Stack for pushing elements (enqueue)
+    private Stack<Long> inStack = new Stack<>();
+    // Stack for popping/peeking elements (dequeue)
+    private Stack<Long> outStack = new Stack<>();
+
+    private void transferElements() {
+        // Only transfer if outStack is empty, preserving FIFO order relative to previous transfers.
+        if (outStack.isEmpty()) {
+            while (!inStack.isEmpty()) {
+                outStack.push(inStack.pop());
+            }
+        }
+    }
+
+    public void pushElement(long x) {
+        // Push always goes to the inStack. O(1)
+        inStack.push(x);
+    }
+
+    public long popElement() {
+        // Ensure the front element is ready in outStack. Amortized O(1)
+        transferElements();
+        return outStack.pop();
+    }
+
+    public long peekElement() {
+        // Ensure the front element is ready in outStack. Amortized O(1)
+        transferElements();
+        return outStack.peek();
+    }
+
+    public boolean isEmptyResult() {
+        // The queue is empty only if both stacks are empty. O(1)
+        return inStack.isEmpty() && outStack.isEmpty();
+    }
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw = new PrintWriter(System.out); 
+        
+        int T = Integer.parseInt(br.readLine());
+
+        while (T-- > 0) {
+            // Read N, the number of operations
+            int N = Integer.parseInt(br.readLine());
+            QueueUsingStacks q = new QueueUsingStacks();
+
+            for (int i = 0; i < N; i++) {
+                String[] line = br.readLine().trim().split(" ");
+                String command = line[0];
+
+                switch (command) {
+                    case "push":
+                        long x = Long.parseLong(line[1]);
+                        q.pushElement(x);
+                        pw.println("None");
+                        break;
+                    case "pop":
+                        pw.println(q.popElement());
+                        break;
+                    case "peek":
+                        pw.println(q.peekElement());
+                        break;
+                    case "empty":
+                        pw.println(q.isEmptyResult() ? "true" : "false");
+                        break;
+                }
+            }
+        }
+        pw.flush();
+    }
+}
