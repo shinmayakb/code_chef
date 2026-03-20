@@ -1,0 +1,54 @@
+\* Code from code chef diffuclity - 1006
+TCS Examination
+
+Two friends, Dragon and Sloth, are writing a computer science examination series. There are three subjects in this series: DSADSA, TOCTOC, and DMDM. Each subject carries 100100 marks.
+
+You know the individual scores of both Dragon and Sloth in all 33 subjects. You have to determine who got a better rank.
+
+The rank is decided as follows:
+
+    The person with a bigger total score gets a better rank
+    If the total scores are tied, the person who scored higher in DSADSA gets a better rank
+    If the total score and the DSADSA score are tied, the person who scored higher in TOCTOC gets a better rank
+    If everything is tied, they get the same rank.
+*/
+
+#include <stdio.h>
+
+int main() {
+    int T;
+    scanf("%d", &T);
+
+    while (T--) {
+        int d_dsa, d_toc, d_dm;
+        int s_dsa, s_toc, s_dm;
+
+        scanf("%d %d %d", &d_dsa, &d_toc, &d_dm);
+        scanf("%d %d %d", &s_dsa, &s_toc, &s_dm);
+
+        int dragonTotal = d_dsa + d_toc + d_dm;
+        int slothTotal  = s_dsa + s_toc + s_dm;
+
+        if (dragonTotal > slothTotal) {
+            printf("DRAGON\n");
+        } else if (dragonTotal < slothTotal) {
+            printf("SLOTH\n");
+        } else {
+            if (d_dsa > s_dsa) {
+                printf("DRAGON\n");
+            } else if (d_dsa < s_dsa) {
+                printf("SLOTH\n");
+            } else {
+                if (d_toc > s_toc) {
+                    printf("DRAGON\n");
+                } else if (d_toc < s_toc) {
+                    printf("SLOTH\n");
+                } else {
+                    printf("TIE\n");
+                }
+            }
+        }
+    }
+
+    return 0;
+}
