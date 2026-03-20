@@ -1,0 +1,61 @@
+\*
+Multiple Bracket valid parenthesis
+case 1:
+input : ([])
+output: valid
+
+case 2:
+input : ([)]
+output : not valid
+*/
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int T = sc.nextInt();
+        sc.nextLine();
+        
+        while (T-- > 0) {
+            String s = sc.nextLine();
+            
+            Stack<Character> stack = new Stack<>();
+            boolean isValid = true;
+            
+            for (char ch : s.toCharArray()) {
+                
+                // Opening brackets
+                if (ch == '(' || ch == '{' || ch == '[') {
+                    stack.push(ch);
+                }
+                // Closing brackets
+                else {
+                    if (stack.isEmpty()) {
+                        isValid = false;
+                        break;
+                    }
+                    
+                    char top = stack.pop();
+                    
+                    if ((ch == ')' && top != '(') ||
+                        (ch == '}' && top != '{') ||
+                        (ch == ']' && top != '[')) {
+                        isValid = false;
+                        break;
+                    }
+                }
+            }
+            
+            // Final check
+            if (!stack.isEmpty()) {
+                isValid = false;
+            }
+            
+            System.out.println(isValid ? "Valid" : "Not Valid");
+        }
+        
+        sc.close();
+    }
+}
