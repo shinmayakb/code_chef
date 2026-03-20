@@ -1,0 +1,61 @@
+\* Code from code chef diffuclity - 1002
+TCS Examination
+
+Two friends, Dragon and Sloth, are writing a computer science examination series. There are three subjects in this series: DSADSA, TOCTOC, and DMDM. Each subject carries 100100 marks.
+
+You know the individual scores of both Dragon and Sloth in all 33 subjects. You have to determine who got a better rank.
+
+The rank is decided as follows:
+
+    The person with a bigger total score gets a better rank
+    If the total scores are tied, the person who scored higher in DSADSA gets a better rank
+    If the total score and the DSADSA score are tied, the person who scored higher in TOCTOC gets a better rank
+    If everything is tied, they get the same rank.
+*/
+
+import java.util.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        
+        int T = sc.nextInt();
+        
+        while (T-- > 0) {
+            int d_dsa = sc.nextInt();
+            int d_toc = sc.nextInt();
+            int d_dm  = sc.nextInt();
+            
+            int s_dsa = sc.nextInt();
+            int s_toc = sc.nextInt();
+            int s_dm  = sc.nextInt();
+            
+            int dragonTotal = d_dsa + d_toc + d_dm;
+            int slothTotal  = s_dsa + s_toc + s_dm;
+            
+            if (dragonTotal > slothTotal) {
+                System.out.println("DRAGON");
+            } else if (dragonTotal < slothTotal) {
+                System.out.println("SLOTH");
+            } else {
+                // totals equal
+                if (d_dsa > s_dsa) {
+                    System.out.println("DRAGON");
+                } else if (d_dsa < s_dsa) {
+                    System.out.println("SLOTH");
+                } else {
+                    // DSA equal
+                    if (d_toc > s_toc) {
+                        System.out.println("DRAGON");
+                    } else if (d_toc < s_toc) {
+                        System.out.println("SLOTH");
+                    } else {
+                        System.out.println("TIE");
+                    }
+                }
+            }
+        }
+        
+        sc.close();
+    }
+}
