@@ -1,0 +1,10 @@
+\* code from code chef
+Valid Parenthesis
+If you are new to stacks and queues, or want a refresher on them, start with our Learn Stacks and Queues course
+Give string a SS consisting of only (( and )). Find whether SS is a valid parenthesis string.
+Note: A valid parentheses string is defined as:
+    Empty string is valid.
+    If PP is valid, (P)(P) is also valid.
+    If PP and QQ are valid, PQPQ is also valid.
+
+*/
