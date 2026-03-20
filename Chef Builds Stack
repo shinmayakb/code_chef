@@ -1,0 +1,94 @@
+\* code from code chef 
+Chef Builds Stack
+Chef wants to implement a stack that follows the Last-In-First-Out (LIFO) principle using only two queues.
+Queues support operations such as push to back, pop or peek from front, size, and isEmpty.
+Chef needs to design a stack using only queue operations such that it behaves exactly like a normal stack.
+
+*/
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+// Queue structure
+typedef struct {
+    int *arr;
+    int front, rear, size, capacity;
+} Queue;
+
+// Create Queue
+Queue* createQueue(int cap) {
+    Queue* q = (Queue*)malloc(sizeof(Queue));
+    q->capacity = cap;
+    q->front = 0;
+    q->size = 0;
+    q->rear = -1;
+    q->arr = (int*)malloc(cap * sizeof(int));
+    return q;
+}
+
+// Queue operations
+void enqueue(Queue* q, int x) {
+    q->rear = (q->rear + 1) % q->capacity;
+    q->arr[q->rear] = x;
+    q->size++;
+}
+
+int dequeue(Queue* q) {
+    int x = q->arr[q->front];
+    q->front = (q->front + 1) % q->capacity;
+    q->size--;
+    return x;
+}
+
+int front(Queue* q) {
+    return q->arr[q->front];
+}
+
+bool isEmptyQueue(Queue* q) {
+    return q->size == 0;
+}
+
+// Stack using two queues
+typedef struct {
+    Queue* q1;
+    Queue* q2;
+} StackUsingQueues;
+
+// Create Stack
+StackUsingQueues* createStack() {
+    StackUsingQueues* stack = (StackUsingQueues*)malloc(sizeof(StackUsingQueues));
+    stack->q1 = createQueue(100000);
+    stack->q2 = createQueue(100000);
+    return stack;
+}
+
+// Push operation
+void push(StackUsingQueues* stackInstance, int elementValue) {
+    enqueue(stackInstance->q2, elementValue);
+
+    while (!isEmptyQueue(stackInstance->q1)) {
+        enqueue(stackInstance->q2, dequeue(stackInstance->q1));
+    }
+
+    // swap q1 and q2
+    Queue* temp = stackInstance->q1;
+    stackInstance->q1 = stackInstance->q2;
+    stackInstance->q2 = temp;
+}
+
+// Pop operation
+int pop(StackUsingQueues* stackInstance) {
+    return dequeue(stackInstance->q1);
+}
+
+// Top operation
+int top(StackUsingQueues* stackInstance) {
+    return front(stackInstance->q1);
+}
+
+// Empty check
+bool empty(StackUsingQueues* stackInstance) {
+    return isEmptyQueue(stackInstance->q1);
+}
